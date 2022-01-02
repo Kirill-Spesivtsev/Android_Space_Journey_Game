@@ -15,8 +15,7 @@ public class GameView extends SurfaceView implements Runnable {
     public static int maxY = 30;
     public static float unitW = 0;
     public static float unitH = 0;
-    public static int playerSizeY = 124;
-    public static int playerSizeX = 90;
+
 
     private boolean firstTime = true;
     private boolean gameRunning = true;
@@ -30,6 +29,9 @@ public class GameView extends SurfaceView implements Runnable {
     private ArrayList<Obstacle> obstacles = new ArrayList<>();
     private final int obstacleFrequency = 50;
     private int prevObstacleTime;
+
+    private final int speedUpFrequency = 100;
+    private int prevSpeedUpTime;
 
     public GameView(Context context) {
         super(context);
@@ -46,6 +48,7 @@ public class GameView extends SurfaceView implements Runnable {
             update();
             draw();
             checkCollision();
+            isSpeedIncreasing();
             isObstacleAdding();
             control();
         }
@@ -100,13 +103,22 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    private  void isObstacleAdding(){
+    private void isObstacleAdding(){
         if (prevObstacleTime >= obstacleFrequency){
             Obstacle obstacle = new Obstacle(getContext());
             obstacles.add(obstacle);
             prevObstacleTime = 0;
         }else{
             prevObstacleTime++;
+        }
+    }
+
+    private void isSpeedIncreasing(){
+        if (prevSpeedUpTime >= speedUpFrequency){
+            Obstacle.baseSpeedMultiplier *= 1.05;
+            prevSpeedUpTime = 0;
+        }else{
+            prevSpeedUpTime++;
         }
     }
 }
