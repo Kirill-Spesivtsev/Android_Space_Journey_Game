@@ -5,7 +5,7 @@ import android.util.Log;
 
 import java.util.Random;
 
-public class Obstacle extends GameMotionObject{
+public class Obstacle extends GameMotionObject implements AutoCloseable{
 
 
     public float radius = 1.2f;
@@ -18,7 +18,7 @@ public class Obstacle extends GameMotionObject{
         Random rnd = new Random();
 
         bitmapId = R.drawable.asteroid_default_3;
-        y = - GameView.maxY;
+        y = - 3;
         x = rnd.nextInt(GameView.maxX) - radius;
         size = radius * 2;
         speed = (minSpeed + (maxSpeed - minSpeed) * rnd.nextFloat())
@@ -32,12 +32,25 @@ public class Obstacle extends GameMotionObject{
         y += speed;
     }
 
+
     public boolean isCollision(float playerX, float playerY, float playerSize){
         boolean result = !((x + size < playerX + collisionError)
                 || (x > playerX + playerSize - collisionError)
                 || (y + size < playerY + collisionError)
                 || (y > playerY + playerSize - collisionError));
+        if (y > 30) {
+            try {
+                this.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         //if (result) Log.e("@", playerX + "____" + playerY);
         return result;
+    }
+
+    @Override
+    public void close() throws Exception {
+        //GameView.updateScore();
     }
 }

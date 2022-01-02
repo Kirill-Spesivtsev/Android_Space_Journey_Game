@@ -20,7 +20,7 @@ public class GameView extends SurfaceView implements Runnable {
     public static float unitW = 0;
     public static float unitH = 0;
 
-    Handler handler;
+    private static Handler handler;
 
     private boolean firstTime = true;
     private boolean gameRunning = true;
@@ -33,11 +33,11 @@ public class GameView extends SurfaceView implements Runnable {
 
     private ArrayList<Obstacle> obstacles = new ArrayList<>();
     private final int obstacleFrequency = 50;
-    private int prevObstacleTime;
+    private int prevObstacleTime = 0;
 
     private final int speedUpFrequency = 100;
-    private int prevSpeedUpTime;
-    private int speedIncreaseNumber = 0;
+    private int prevSpeedUpTime = 0;
+    private static int speedIncreaseNumber = 0;
 
     public GameView(Context context, Handler h) {
         super(context);
@@ -114,7 +114,7 @@ public class GameView extends SurfaceView implements Runnable {
             Obstacle obstacle = new Obstacle(getContext());
             obstacles.add(obstacle);
             prevObstacleTime = 0;
-            addToScore((int) (25 * Math.log10( 10 + speedIncreaseNumber)));
+            updateScore();
 
         }else{
             prevObstacleTime++;
@@ -131,7 +131,8 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-    private void addToScore(int number){
+    public static void updateScore(){
+        int number =  (int) (25 * Math.log10( 10 + speedIncreaseNumber));
         Message mes = new Message();
         mes.obj = number;
         handler.sendMessage(mes);
