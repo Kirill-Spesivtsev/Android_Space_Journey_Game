@@ -8,7 +8,7 @@ import java.util.Random;
 public class Obstacle extends GameMotionObject{
 
 
-    public int radius = 1;
+    public float radius = 1.2f;
     public static float baseSpeedMultiplier = 1.0f;
     private float collisionError = 0.6f;
     private final float minSpeed = 0.1f;
@@ -17,7 +17,7 @@ public class Obstacle extends GameMotionObject{
     public Obstacle(Context context){
         Random rnd = new Random();
 
-        bitmapId = R.drawable.asteroid_default_1;
+        bitmapId = R.drawable.asteroid_default_3;
         y = - GameView.maxY;
         x = rnd.nextInt(GameView.maxX) - radius;
         size = radius * 2;
@@ -37,7 +37,7 @@ public class Obstacle extends GameMotionObject{
                 || (x > playerX + playerSize - collisionError)
                 || (y + size < playerY + collisionError)
                 || (y > playerY + playerSize - collisionError));
-        //if (result) Log.e("@@@@@@@@@@@@@@@@@@@", playerX + "____" + playerY);
+        //if (result) Log.e("@", playerX + "____" + playerY);
         return result;
     }
 }
