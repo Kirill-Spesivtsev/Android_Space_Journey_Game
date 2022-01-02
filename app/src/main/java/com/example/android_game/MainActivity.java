@@ -23,44 +23,39 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         LinearLayout gameLayout = findViewById(R.id.gameLayout);
         gameLayout.addView(gameView);
 
-        gameView.setOnTouchListener(this);
-
+        LinearLayout leftButton = findViewById(R.id.leftButton);
+        LinearLayout rightButton = findViewById(R.id.rightButton);
+        leftButton.setOnTouchListener(this);
+        rightButton.setOnTouchListener(this);
 
     }
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-
-        DisplayMetrics metrics = this.getResources().getDisplayMetrics();
-        float width = (float) metrics.widthPixels;
-        float x = motionEvent.getX();
-
-
-        if (x >= width / 2) {
-            switch (motionEvent.getAction()){
-                case MotionEvent.ACTION_DOWN:
-                    isLeftPressed = true;
-                    break;
-                case MotionEvent.ACTION_UP:
-                    isLeftPressed = false;
-                    break;
-            }
+        switch (view.getId()){
+            case R.id.leftButton:
+                switch (motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        isLeftPressed = true;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        isLeftPressed = false;
+                        break;
+                }
+                break;
+            case R.id.rightButton:
+                switch (motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        isRightPressed = true;
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        isRightPressed = false;
+                        break;
+                }
+                break;
+            default:
+                break;
         }
-        else if (x < width / 2) {
-            switch (motionEvent.getAction()){
-                case MotionEvent.ACTION_DOWN:
-                    isRightPressed = true;
-                    break;
-                case MotionEvent.ACTION_UP:
-                    isRightPressed = false;
-                    break;
-            }
-
-
-        }
-
-
-
         return true;
     }
 }
