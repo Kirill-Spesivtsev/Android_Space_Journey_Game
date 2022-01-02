@@ -5,7 +5,7 @@ import android.content.Context;
 public class PlayerObject  extends GameMotionObject{
     public PlayerObject(Context context){
         bitmapId = R.drawable.spaceship_default_1;
-        size = 5;
+        size = 3;
         x = 7;
         y = GameView.maxY - size - 1;
         speed = 0.5f;

@@ -7,12 +7,16 @@ import android.graphics.Paint;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.ArrayList;
+
 public class GameView extends SurfaceView implements Runnable {
 
-    public static int maxX = 18;
-    public static int maxY = 37;
+    public static int maxX = 20;
+    public static int maxY = 30;
     public static float unitW = 0;
     public static float unitH = 0;
+    public static int playerSizeY = 124;
+    public static int playerSizeX = 90;
 
     private boolean firstTime = true;
     private boolean gameRunning = true;
@@ -22,6 +26,10 @@ public class GameView extends SurfaceView implements Runnable {
     private Paint paint;
     private Canvas canvas;
     private SurfaceHolder surfaceHolder;
+
+    private ArrayList<Obstacle> obstacles = new ArrayList<>();
+    private final int obstacleFrequency = 50;
+    private int prevObstacleTime;
 
     public GameView(Context context) {
         super(context);
@@ -37,6 +45,8 @@ public class GameView extends SurfaceView implements Runnable {
         while (gameRunning){
             update();
             draw();
+            checkCollision();
+            isObstacleAdding();
             control();
         }
     }
@@ -44,11 +54,15 @@ public class GameView extends SurfaceView implements Runnable {
     private void update(){
         if(!firstTime){
             playerObject.update();
+            for (Obstacle obstacle: obstacles){
+                obstacle.update();
+            }
         }
     }
 
     public void draw(){
         if (surfaceHolder.getSurface().isValid()){
+
             if (firstTime){
                 firstTime = false;
                 unitW = surfaceHolder.getSurfaceFrame().width() / maxX;
@@ -56,12 +70,15 @@ public class GameView extends SurfaceView implements Runnable {
 
                 playerObject = new PlayerObject(getContext());
 
-
             }
             canvas = surfaceHolder.lockCanvas();
             canvas.drawColor(Color.BLACK);
 
             playerObject.draw(paint, canvas);
+
+            for (Obstacle obstacle: obstacles){
+                obstacle.draw(paint, canvas);
+            }
 
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
@@ -72,6 +89,24 @@ public class GameView extends SurfaceView implements Runnable {
             gameThread.sleep(20);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void checkCollision(){
+        for (Obstacle obstacle: obstacles){
+            if (obstacle.isCollision(playerObject.x, playerObject.y, playerObject.size)){
+                gameRunning = false;
+            }
+        }
+    }
+
+    private  void isObstacleAdding(){
+        if (prevObstacleTime >= obstacleFrequency){
+            Obstacle obstacle = new Obstacle(getContext());
+            obstacles.add(obstacle);
+            prevObstacleTime = 0;
+        }else{
+            prevObstacleTime++;
         }
     }
 }
