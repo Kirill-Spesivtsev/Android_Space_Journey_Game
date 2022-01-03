@@ -4,11 +4,13 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -82,6 +84,9 @@ public class GameView extends SurfaceView implements Runnable {
             }
             canvas = surfaceHolder.lockCanvas();
             canvas.drawColor(Color.BLACK);
+            //Drawable d = getResources().getDrawable(R.drawable.background_default_1, null);
+            //d.setBounds(0, 0, 1080, 2220);
+            //d.draw(canvas);
 
             playerObject.draw(paint, canvas);
 
@@ -105,6 +110,8 @@ public class GameView extends SurfaceView implements Runnable {
         for (Obstacle obstacle: obstacles){
             if (obstacle.isCollision(playerObject.x, playerObject.y, playerObject.size)){
                 gameRunning = false;
+                LinearLayout l = findViewById(R.id.endgame_layout);
+                l.setMinimumHeight(2220);
             }
         }
     }
