@@ -17,35 +17,46 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="35dp"
         android:background="@color/cloud_blue">
 
         <TextView
+            android:id="@+id/text_order_number"
             android:paddingStart="10dp"
-            android:layout_width="130dp"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:text="Nick"
-            android:textSize="24sp"
+            android:text="№"
+            android:textSize="18sp"
             android:layout_gravity="center_horizontal"/>
 
         <TextView
             android:paddingStart="0dp"
-            android:layout_width="130dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:text="Score"
-            android:textSize="24sp"
+            android:text="Nick"
+            android:textSize="22sp"
             android:layout_gravity="center_horizontal"/>
+
         <TextView
             android:paddingStart="0dp"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="Score"
+            android:textSize="22sp"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:paddingStart="0dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Date"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>
 
     <ListView
+        android:id="@+id/list_highscore"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>
 
